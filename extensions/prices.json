@@ -1,0 +1,16 @@
+{
+  "_comment": "USD per 1M tokens. Fill in from the CURRENT Azure OpenAI price list for your region before running e5_cost_latency.py. null = not set; the script refuses to guess.",
+  "prices_checked_on": null,
+  "source": null,
+  "models": {
+    "gpt-5.2": {"input": null, "output": null},
+    "gpt-5.4-mini": {"input": null, "output": null}
+  },
+  "kb_tokens_per_question": {
+    "_comment": "Optional estimate of the knowledge base's own planning + synthesis tokens per question (gpt-5.4-mini). Leave at 0 to exclude.",
+    "input": 0,
+    "output": 0,
+    "input_price": 0,
+    "output_price": 0
+  }
+}

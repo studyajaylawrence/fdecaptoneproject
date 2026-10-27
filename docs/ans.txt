@@ -1,0 +1,80 @@
+Written for: you, to say aloud to the viva panel. Each answer is first person and takes about 45–60 seconds. Each opens with a one-line headline, then gives the evidence, and ends by stating a limitation before the panel can raise it.
+
+---
+
+### Q1. What stops this answering from the model's own medical knowledge?
+
+> "Short answer: layered controls, with the strongest ones in code rather than in the prompt.
+>
+> First, the platform forces retrieval. `tool_choice` is `required`, and the only tool the agent is allowed is `knowledge_base_retrieve` against the approved corpus. So it can't skip the search, and it has no other source to ground on.
+>
+> Second, both the knowledge base's answer instructions and my agent rules say: answer only from what was retrieved; if a claim can't be cited, remove it.
+>
+> Third, and this is the one I rely on, step 3's `should_hold()` checks the output in code. No citation, a malformed citation, or a CHS document that isn't in the corpus or wasn't retrieved, and the answer is held for a clinician.
+>
+> The limit I'd point out myself: those checks work at the citation level, not the claim level. A correctly cited answer with one extra sentence from model knowledge would pass at runtime. Only my offline groundedness evaluation would catch it. That's why clinical answers are only auto-released at High confidence, and why runtime claim verification is my first production change."
+
+**If they push:** *"Doesn't 'required' guarantee it?"* → "It guarantees a retrieval happens, not that the answer uses it. I also log the number of knowledge-base calls, but I don't hold on zero yet. That's a one-line fix."
+
+---
+
+### Q2. What happens when the corpus is wrong or out of date?
+
+> "The system is designed to faithfully repeat the corpus. So if the corpus is wrong, the answer is wrong, but it's cited, so a reviewer can trace it straight back to the document. Corpus correctness is fundamentally a document-governance problem: owners, review dates, change control.
+>
+> What I do handle is conflicting versions. That was my E7 extension. If two versions of the same policy are retrieved, `version_conflicts()` holds the answer in code, even if the model silently picks one. Citing a document ID that isn't in the approved list is also held.
+>
+> What I don't handle yet: every policy has a 'Next review' date, and nothing reads it, so an expired policy could be cited and released. Ingestion is also a one-off run, not scheduled. Before production I'd hold anything citing a document past its review date, and put re-indexing on a schedule tied to the document approval process."
+
+---
+
+### Q3. How do you know it's grounded? What did you measure, on what data?
+
+> "Two layers of measurement.
+>
+> Behaviour checks: 37 questions. 12 answerable, 4 that must be deferred, 3 out of corpus, and 18 fairness questions in 9 matched pairs. Plus 10 adversarial red-team prompts and 12 router paraphrases. Those check that the expected facts appear, the right document is cited, and deferrals contain no doses. With `--pipeline` they also check the end-to-end release decision.
+>
+> Groundedness: Foundry's built-in groundedness evaluator, an LLM judge scoring 1 to 5, on the answerable questions, comparing the answer to the context the knowledge base actually returned.
+>
+> I'll be candid about what that evidence is worth. It's a smoke test, not proof. Twelve scored questions, written by me, on fictional documents, so there's a risk I've tuned to my own test set. The judge is itself an LLM I haven't calibrated against clinicians. And because I use answer synthesis, the judge may be comparing against a summary rather than raw chunks. My calibration run also showed one High-confidence answer that failed a fact check, which is exactly why clinical answers below High are held.
+>
+> For production, I'd want hundreds of clinician-written questions, a judge validated against clinician ratings, and zero High-confidence failures as a release gate."
+
+**Before the viva:** bring your actual run output (pass rate and mean groundedness). The repo doesn't have a saved `results.jsonl`, and the panel will ask for the numbers.
+
+---
+
+### Q4. Why is `require_approval="never"` safe when human review sits elsewhere?
+
+> "Approval belongs on actions that have side effects. This tool has none. It's a single, read-only search of a corpus that has already been approved. Approving it would mean a clinician approving a search query before seeing any answer. That's friction with no safety gain. The query is also already PHI-redacted before the model sees it.
+>
+> The risk is in the answer, so that's where the oversight sits: `should_hold()` and the clinician review queue.
+>
+> The honest caveat is that this only holds if the release rules are right, because answers that aren't held get no human review. Acute questions are always held, and clinical ones are only released at High confidence. But my router is regex-based, and paraphrases can slip past it. I mitigate that with the paraphrase test set and a clinician worksheet for tuning the patterns. In production I'd also have clinicians audit a sample of released answers."
+
+---
+
+### Q5. What would you change before this went near a real hospital?
+
+> "Five things, in order.
+>
+> One, clinical safety and governance first: a hazard log, a named clinical safety officer, and a decision on whether this counts as a medical device. No code change substitutes for that.
+>
+> Two, corpus governance: hold anything past its review date, schedule re-indexing, and build the allow-list from the live index, not local files.
+>
+> Three, claim-level grounding at runtime: verify each sentence against the retrieved chunks before release, and hold if no retrieval happened.
+>
+> Four, a better router: a trained classifier tuned for recall on acute cases, keeping the regexes as a safety floor, built on clinician-labelled data.
+>
+> Five, real evaluation and monitoring: a large clinician-written test set, a calibrated judge, release gates in CI, and clinicians auditing a sample of auto-released answers, with overturn rates tracked after go-live.
+>
+> Plus production security: scope the tool connection to this agent, use private networking, and use a proper PHI detection service instead of regexes."
+
+---
+
+### Delivery tips
+- **Open each answer with the headline sentence.** If you're cut off, the point has still landed.
+- **Volunteer each limitation yourself.** Examiners reward knowing where a design stops working. It also takes away their follow-up question.
+- **Have two files open:** `should_hold()` at [step3_assistant.py:519](step3_assistant.py#L519) and `create_agent()` at [step2_create_agent.py:229](step2_create_agent.py#L229). Pointing at code beats describing it.
+
+If you want, I can add the two small holds (no retrieval happened, and a document past its review date) before the viva. Then answers 1 and 2 could say they're implemented, not planned.

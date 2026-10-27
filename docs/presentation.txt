@@ -1,0 +1,28 @@
+
+WIPRO FDE CAPSTONE PROJECT REPORT TEMPLATE
+(Reference Guide for 6–8 Page Submission)
+Azure AI Foundry & Agentic Applications | Wipro AI Academy
+Select Track: UC004 (Clinical Knowledge Grounding) or UC007 (Claims Processing Agent)
+1. Executive Summary (Target: ~0.5 Page)
+[Provide a high-level overview of your capstone project. Clearly state which use case was implemented (UC004 Clinical Knowledge Grounding Agent or UC007 Claims Processing Agent). Summarize the core business problem addressed, the solution architecture deployed on Azure AI Foundry, key technical highlights, and the measurable business value realized.]
+2. Business Problem & Solution Architecture (Target: ~1.5 Pages)
+2.1 Domain Context & Problem Statement
+[Describe the operational bottlenecks, compliance requirements, or data complexity of the chosen domain (Healthcare guidelines for UC004 or Insurance claims intake for UC007). Highlight why traditional manual review fails and why an agentic AI solution with governance is necessary.]
+2.2 High-Level Architecture Flow
+[Detail the end-to-end architecture. For UC007: FastAPI backend (Port 8000), React frontend (Port 5173), Azure AI Foundry orchestration, GPT-5.5 vision/agent, and Content Understanding. For UC004: Foundry IQ grounding, Azure AI Search (Standard S1), Purview PHI redaction, and clinical human-in-the-loop routing. Include architecture diagrams or flow descriptions.]
+3. Technical Implementation Details (Target: ~2.5 Pages)
+3.1 Component Breakdown & Code Structure
+[Explain how you structured your code repository. Detail the orchestration logic, prompt templates, tool definitions, and API integrations implemented during the 4-day capstone.]
+3.2 Data Ingestion, Extraction, and Grounding
+[Describe how documents, images, and unstructured corpora were ingested, indexed, and processed. Explain the vector search configuration, chunking strategies, and grounding verification steps used to eliminate hallucinations.]
+3.3 Human-in-the-Loop & Governance Integration
+[Explain how human oversight, review queues, and security guardrails (Purview / Agent 365) were integrated into the workflow to ensure enterprise safety and compliance.]
+4. Testing, Evaluation & Results (Target: ~1.5 Pages)
+4.1 Evaluation Methodology
+[Detail how you evaluated your agent. For UC007: Describe testing against the 5 sample claims (complete, missing evidence, contradictions, policy exceptions, fraud indicators). For UC004: Describe clinical query grounding tests against the VA/DoD and Contoso guideline corpus.]
+4.2 Evaluation Metrics & Findings
+[Present quantitative and qualitative results. Include evaluation metrics for groundedness, retrieval precision, citation accuracy, and end-to-end workflow execution latency.]
+5. Deployment Readiness & Operational Plan (Target: ~0.5 Page)
+[Discuss production feasibility, scalability considerations, environment management (noting the 4-hour active lab constraint), security best practices, and ongoing maintenance plans for enterprise deployment.]
+6. Conclusion & Future Roadmap (Target: ~0.5 Page)
+[Summarize the key achievements of your capstone project, lessons learned from team collaboration across diverse technical roles, and future enhancements planned for the solution.]

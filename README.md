@@ -222,4 +222,3 @@ too large").
 The VA/DoD Clinical Practice Guidelines referenced by this lab are works of the US federal
 government and are in the public domain. The Contoso Health System documents in
 `reference/policies/` are fictional training content written for this lab.
-# fdecaptoneproject

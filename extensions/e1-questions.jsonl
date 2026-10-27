@@ -1,0 +1,3 @@
+{"id": "e1-01", "category": "answerable", "query": "How soon must a patient with suspected C. difficile be placed in contact isolation at Contoso?", "expected_facts": ["2 hours"], "expected_source": "CHS-POL-007"}
+{"id": "e1-02", "category": "answerable", "query": "What hand hygiene compliance must a Contoso ward achieve in the monthly audit, and what happens if it falls short twice in a row?", "expected_facts": ["95%", "weekly"], "expected_source": "CHS-POL-007"}
+{"id": "e1-03", "category": "answerable", "query": "Within how long of triage must an adult in the Contoso emergency department be screened for sepsis?", "expected_facts": ["15 minutes"], "expected_source": "CHS-PATH-010"}

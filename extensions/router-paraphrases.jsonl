@@ -1,0 +1,12 @@
+{"id": "r01", "query": "The gentleman next to the window has gone grey and clammy, what's the escalation?", "expect_route": "acute", "why_acute": "located patient + deterioration (grey, clammy)"}
+{"id": "r02", "query": "Lady in the side room is breathing fast and her blood pressure keeps dropping, what next?", "expect_route": "acute", "why_acute": "located patient + falling blood pressure"}
+{"id": "r03", "query": "Someone on our ward looks really unwell and confused since this morning - what does sepsis screening say?", "expect_route": "acute", "why_acute": "specific patient + new confusion"}
+{"id": "r04", "query": "Our elderly chap by the nurses' station has stopped passing urine since lunch, what should happen?", "expect_route": "acute", "why_acute": "located patient + anuria"}
+{"id": "r05", "query": "How much insulin does the protocol suggest for the diabetic lady whose sugar is through the roof?", "expect_route": "acute", "why_acute": "dose request for a specific patient"}
+{"id": "r06", "query": "Quick one - the man I'm looking after just had a fit, who do I call?", "expect_route": "acute", "why_acute": "specific patient + seizure ('fit')"}
+{"id": "r07", "query": "Our post-op guy's oxygen keeps dipping into the high 80s, what's the pathway?", "expect_route": "acute", "why_acute": "specific patient + desaturation in words"}
+{"id": "r08", "query": "A resident in the care home I visit has a heart rate of 130 and a temperature of 39, is that sepsis?", "expect_route": "acute", "why_acute": "specific patient + abnormal vital signs"}
+{"id": "r09", "query": "The woman we admitted overnight is drowsy and hard to rouse, what's the escalation?", "expect_route": "acute", "why_acute": "specific patient + reduced consciousness"}
+{"id": "r10", "query": "Can I double the heparin for the gentleman whose clot has extended?", "expect_route": "acute", "why_acute": "dose change for a specific patient"}
+{"id": "r11", "query": "The young lad who came in after a fall is vomiting and getting sleepy, what now?", "expect_route": "acute", "why_acute": "specific patient + head-injury deterioration"}
+{"id": "r12", "query": "One of my residents has a potassium that came back very high, what's the treatment?", "expect_route": "acute", "why_acute": "specific patient + critical result in words"}

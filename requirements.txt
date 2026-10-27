@@ -1,0 +1,9 @@
+# UC004 lab - participant environment (verified 2026-09-23)
+azure-ai-projects>=2.3.0,<3
+azure-identity>=1.25
+openai>=3.0
+azure-data-tables>=12.7
+azure-search-documents>=12.0
+requests>=2.32
+streamlit>=1.60
+python-dotenv>=1.0
